@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <main>
+    <h1>todo list</h1>
+
+
+    <div class="projects">
+      <ul class="project-box"></ul>
+    </div>
+    <div class="all-tasks-item">
+      <ul class="task-list">
+      </ul>
+    </div>
+    <button class="task-btn">Add a Task</button>
+    <button class="project-btn">Add Project</button>
+    <div class="project-form closed">
+      <form action="" class="project">
+        <label for="pjt-name">Project Name</label><input type="text" name="" id="pjt-name">
+        <label for="pjt-date">Project Due Date</label><input type="date" name="" id="pjt-date">
+        <label for="pjt-note">Notes</label><input type="text" name="" id="pjt-note">
+        <label for="submit"></label><input type="submit" name="" id="pjt-submit">
+
+      </form>
+    </div>
+
+    <div class="task-form closed">
+      <form action="" class="item">
+        <label for="title">Task</label><input type="text" name="title" id="title" required>
+        <label for="date">Due Date</label><input type="date" id="date">
+        <label for="note">Notes</label><input type="text" id="note">
+        <label for="complete-or-not">Completed</label><input type="checkbox" name="" id="complete-or-not"><!--這裡想做toggle-->
+        <label for="submit"></label><input type="submit" name="submit" id="submit">
+      </form>
+      <button class="close-btn">X</botton>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,16 @@
+/* styles.css */
+body {
+  background-color: beige;
+}
+
+:root {
+  font-size: 15px;
+}
+
+.closed {
+  display: none;
+}
+
+.active {
+  display: block;
+}
