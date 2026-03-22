@@ -58,7 +58,7 @@ export default class Screen {
       this.todoList.add(todo);
       this.renderTodo(todo);
 
-      this.taskForm.classList.remove('active');
+      // this.taskForm.classList.remove('active');
       this.form.reset();
 
     }
@@ -115,9 +115,11 @@ export default class Screen {
     submitProjectForm() {
 
       const pjtName = document.querySelector('#pjt-name').value;
-      const pjtNote = document.querySelector('#pjt-note').value;
       const pjtDate = document.querySelector('#pjt-date').value;
+      const pjtNote = document.querySelector('#pjt-note').value;
       const newProject = new Project(pjtName, pjtDate, pjtNote);
+
+      console.log(pjtName, pjtDate, pjtNote);
 
 
       this.projectList.add(newProject);

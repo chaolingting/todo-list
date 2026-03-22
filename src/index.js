@@ -3,6 +3,7 @@ import "./styles.css";
 import Screen from "./screen.js";
 import Todo from "./todo.js";
 import saveTodoList from "./saveTodoList.js";
+import saveProjectList from "./saveProjectList.js"
 import Project from "./project.js";
 
 // 測試用的
@@ -15,7 +16,7 @@ import Project from "./project.js";
 
 
 const todoList = new saveTodoList();
-const projectList = new Project();
+const projectList = new saveProjectList();
 const screen = new Screen(todoList, projectList);
 
 
