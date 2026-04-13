@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Todo List</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Sorts+Mill+Goudy:ital@0;1&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body>
   <main>
@@ -32,12 +35,13 @@
     <div class="task-form closed">
       <form action="" class="item">
         <label for="title">Task</label><input type="text" name="title" id="title" required>
-        <label for="date">Due Date</label><input type="date" id="date">
+        <label for="date">Due Date</label><input type="date" id="date" required>
         <label for="note">Notes</label><input type="text" id="note">
-        <label for="complete-or-not">Completed</label><input type="checkbox" name="" id="complete-or-not"><!--這裡想做toggle-->
+        <label for="complete-or-not">Completed</label><input type="checkbox" name="" id="complete-or-not">
+        <label for="project">Project</label><select name="project" id="project-selection" required><option value="select-a-project">Select a project</option></select>
         <label for="submit"></label><input type="submit" name="submit" id="submit">
       </form>
-      <button class="close-btn">X</botton>
+      <button class="close-btn">X</button>
     </div>
   </main>
 </body>

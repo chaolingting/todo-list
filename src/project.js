@@ -3,12 +3,13 @@ import { formatDistance, subDays, parseISO } from "date-fns";
 
 export default class Project {
 
-  constructor(name, date, todos, note) {
+  constructor(name, note) {
     this.name = name;
-    this.date = parseISO(date);
+    //this.date = formatDistance(date);
+    this.note = note;
     this.todos = [];
     this.id = crypto.randomUUID();
-    this.note = note;
+    
   }
 
   addTodo(todo) {

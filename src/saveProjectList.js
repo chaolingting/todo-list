@@ -1,13 +1,27 @@
 //save project list
+import Project from "./project.js"
 
-export default class projectList {
+export default class ProjectList {
   constructor(){
-    this.projects = JSON.parse(localStorage.getItem('newProject')) || [];
+    const rawData = JSON.parse(localStorage.getItem('newProject')) || [];
+    this.projects = rawData.map(data => {
+    const project = new Project(data.name, data.note);
+    project.todos = data.todos;
+    project.id = data.id;
+    return project;
+  })
   }
+
+
+
 
   add(project) {
     this.projects.push(project);
     this.save();
+  }
+
+  findProject(name) {
+    return this.projects.find(project => project.name === name);
   }
 
   remove(id) {

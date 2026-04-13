@@ -1,6 +1,7 @@
 // UI
 import Todo from "./todo.js";
 import Project from "./project.js";
+import { ta } from "date-fns/locale";
 
 
 export default class Screen {
@@ -48,14 +49,24 @@ export default class Screen {
   }
 
   submitForm() {
-
+      console.log("test form")
       const title = document.querySelector('#title').value;
       const date = document.querySelector('#date').value;
       const note = document.querySelector('#note').value;
       const checkCompleted = document.querySelector('#complete-or-not').checked;
 
-      const todo = new Todo(title, date, note, checkCompleted);
+      const selectedProjectName = document.querySelector('#project-selection').value;
+
+      const todo = new Todo(title, date, note, checkCompleted, selectedProjectName);
       this.todoList.add(todo);
+
+
+      const targetProject = this.projectList.findProject(selectedProjectName);
+      if(targetProject) {
+        targetProject.addTodo(todo);
+        this.projectList.save();
+      }
+      
       this.renderTodo(todo);
 
       // this.taskForm.classList.remove('active');
@@ -65,8 +76,9 @@ export default class Screen {
 
   renderTodo(todo) {
       const li = document.createElement('li');
+
       li.dataset.id = todo.id;
-      li.textContent = `${todo.title} (Due Date: ${todo.date}) ${todo.note} `;
+      li.textContent = `${todo.title} (Due Date: ${todo.getFormattedDate()}) ${todo.note} `;
       if (todo.isCompleted) {
         li.style.textDecoration = 'line-through';
       }
@@ -115,18 +127,22 @@ export default class Screen {
     submitProjectForm() {
 
       const pjtName = document.querySelector('#pjt-name').value;
-      const pjtDate = document.querySelector('#pjt-date').value;
+      // const pjtDate = document.querySelector('#pjt-date').value;
       const pjtNote = document.querySelector('#pjt-note').value;
-      const newProject = new Project(pjtName, pjtDate, pjtNote);
+      const newProject = new Project(pjtName, pjtNote);
 
-      console.log(pjtName, pjtDate, pjtNote);
+      console.log(pjtName, pjtNote);
 
 
       this.projectList.add(newProject);
       this.renderProject(newProject);
 
+      this.renderProjectOption(newProject);
+
       this.projectFormContainer.classList.remove('active');
       this.pjtForm.reset();
+
+
 
       }
 
@@ -134,10 +150,23 @@ export default class Screen {
         const projectBox = document.querySelector('.project-box');
         const projectLi = document.createElement('li');
         projectLi.className = 'project-item';
-        projectLi.textContent = `${project.name}, ${project.date}, ${project.note}`
+        projectLi.textContent = `${project.name}, ${project.note}`
 
 
         projectBox.append(projectLi);
+
+        
+
+      }
+
+      renderProjectOption(Project) {
+        const select = document.querySelector('#project-selection');
+
+        const createdOption = document.createElement('option');
+        createdOption.value = Project.name;
+        createdOption.text = Project.name;
+        select.append(createdOption);
+
 
       }
 
