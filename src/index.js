@@ -1,22 +1,91 @@
 // src/index.js
 import "./styles.css";
-import Screen from "./screen.js";
-import Todo from "./todo.js";
-import saveTodoList from "./saveTodoList.js";
-import saveProjectList from "./saveProjectList.js"
-import Project from "./project.js";
+import { createProject, createTodo, removeTodo, updateTodo, updateProject } from "./dataManager";
 
-// 測試用的
-// console.log(greeting);
-// import odinImage from "./odin.png";
-// const image = document.createElement("img");
-// image.src = odinImage;
-// image.width = 100;
-// document.body.appendChild(image);
+import { renderTodoList, renderProject, renderProjectOption, editTodo } from "./screen.js"
+
+//Todo
+const taskForm = document.querySelector('#task-input-form');
+const projectForm = document.querySelector('#project-input-form');
+
+const taskDialog = document.querySelector('#task-input');
+const projectDialog = document.querySelector('#project-input')
+
+taskForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const editTodoId = document.getElementById('edit-todo-id').value;
+
+  const data = {
+    title: document.getElementById('task-title').value,
+    duetime: document.getElementById('date').value,
+    note: document.getElementById('note').value,
+    project: document.getElementById('select-project').value || "",
+    priority: document.querySelector('input[name="priority"]:checked')?.value,
+    completed: document.getElementById('checkbox').checked
+
+  };
+
+  if(editTodoId) {
+    updateTodo(editTodoId, data);
+    console.log("update:", editTodoId)
+  } else {
+    const newTodo = createTodo(data);
+    console.log("created:",newTodo)
+  }
 
 
-const todoList = new saveTodoList();
-const projectList = new saveProjectList();
-const screen = new Screen(todoList, projectList);
 
+  renderTodoList();
+  taskForm.reset();
+  document.getElementById('edit-todo-id').value = "";
+  taskDialog.hidePopover();
+
+})
+
+const defaultTodo = createTodo({
+  title: "buy tissue paper",
+  duetime: "2026-05-10",
+  note: "",
+  project: "",
+  priority: "Low",
+  completed: false
+})
+console.log(defaultTodo)
+renderTodoList(defaultTodo);
+
+//Project
+
+projectForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+
+  const editProjectId = document.getElementById('edit-project-id').value;
+
+  const pdata = {
+    title: document.getElementById('project-title').value
+  }
+
+  if(editProjectId) {
+    updateProject(editProjectId, pdata);
+    console.log("update:", editProjectId)
+  } else {
+    const newProject = createProject(pdata);
+    console.log("created:",newProject)
+  }
+
+
+
+  renderProject();
+  renderProjectOption();
+
+  projectForm.reset();
+  projectDialog.hidePopover();
+})
+
+const defaultProject = createProject({
+  title: "clean the house"
+});
+console.log(defaultProject);
+renderProject(defaultProject);
 

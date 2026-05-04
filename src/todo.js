@@ -1,25 +1,31 @@
-import { format, parseISO } from "date-fns";
-import Project from "./project";
+  // todo.js/
+  // class todo object(title, duetime, note, project, id, priority, completed)
+  //   create a task(and select a project/or default)/ delete a task/ edit a task
+  //     function createTask(title, taskduetime, tasknote, projectselection, id, priority, completed)
+  //     function removeTask(taskid, remove)
+  //     function editTask(taskId, updateTask)
+import{ formatDistance } from "date-fns"
 
-export default class Todo {
-  
-  constructor(title, duedate, note, isCompleted = false, project){
+
+export class Todo {
+  constructor(title, duetime, dueFromNow, note, project, id, priority, completed = false) {
     this.title = title;
-    this.date = parseISO(duedate);
+    this.duetime = duetime;
+
+    if(duetime && !isNaN(new Date(duetime).getTime())){
+      this.dueFromNow = formatDistance(new Date(duetime), new Date(), { addSuffix: true });
+    } else {
+      this.dueFromNow = "";
+    }
+
     this.note = note;
-    this.isCompleted = isCompleted;
+    this.project = project;
     this.id = crypto.randomUUID();
-    this.project = project === "select-a-project" ? null : project;
+    this.priority = priority;
+    this.completed = completed;
+  }
+
 
   }
 
-  checkCompleted() {
-      this.isCompleted = !this.isCompleted;
-  }
-
-  getFormattedDate() {
-    return format(this.date, 'MMM do, yyyy');
-  }
-
-}
-
+   

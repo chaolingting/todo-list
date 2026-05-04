@@ -1,23 +1,14 @@
-import { formatDistance, subDays, parseISO } from "date-fns";
+  // project.js/    
+  // create a project/ delete a project/ edit a project
+  //   function createProject
+  //   function removeProject
+  //   function editProject
+  // project(include tasks) save to localStorage 
 
 
-export default class Project {
-
-  constructor(name, note) {
-    this.name = name;
-    //this.date = formatDistance(date);
-    this.note = note;
-    this.todos = [];
+export class Project {
+  constructor(title, id) {
+    this.title = title;
     this.id = crypto.randomUUID();
-    
   }
-
-  addTodo(todo) {
-    this.todos.push(todo);
-  }
-
-  removeTodo(id) {
-    this.todos = this.todos.filter(todo => todo.id !== id);
-  }
-
 }

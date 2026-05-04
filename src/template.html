@@ -6,43 +6,63 @@
   <title>Todo List</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Sorts+Mill+Goudy:ital@0;1&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Kosugi&family=Sorts+Mill+Goudy:ital@0;1&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body>
   <main>
-    <h1>todo list</h1>
+    <h1>Todo List</h1>
+
+    <button popovertarget="task-input">add a task</button>
+    <button popovertarget="project-input">add a project</button>
+
+    <dialog id="task-input" popover>
+      <button popovertarget="task-input" popovertargetaction="hide">X</button>
+      <form action="" id="task-input-form">
+        <div class="task-input-item"><label for="title">Task<input type="text" id="task-title" placeholder="What is it about?"></label></div>
+        <div class="task-input-item"><label for="date">Due Date<input type="date" name="" id="date"></label></div>
+        <div class="task-input-item"><label for="note">Note<input type="text" placeholder="Notes" id="note"></label></div>
+        <div class="task-input-item">
+          <label for="project">Project</label>
+            <select name="project" id="select-project">
+              <option value=""> --Choose a Project-- </option>
+              <option value="default">Default</option>
+            </select>
+        </div>
+        <div class="task-input-item"><input type="hidden" id="edit-todo-id"></div>
+        <div class="input-item">
+          <label for="priority">Priority</label>
+          <label><input type="radio" name="priority" value="High">High </label>
+          <label><input type="radio" name="priority" value="Medium">Medium </label>
+          <label><input type="radio" name="priority" value="Low">Low </label>
+        </div>
+        <div class="input-item"><label for="completed">Completed?</label><input type="checkbox" id="checkbox"></div>
 
 
-    <div class="projects">
-      <ul class="project-box"></ul>
-    </div>
-    <div class="all-tasks-item">
-      <ul class="task-list">
+        <div class="input-item"><button type="submit" popovertargetaction="hide">Submit</button></div>
+        <button type="button" formnovalidate popovertarget="task-input">Cancel</button>
+      </form>
+    </dialog>
+
+    <dialog id="project-input" popover="">
+      <button popovertarget="project-input" popovertargetaction="hide">X</button>
+      <form action="" id="project-input-form">
+        <div class="project-input-item"><label for="project-title">Project <input type="text" id="project-title" placeholder="Project" required></label></div>
+        <div class="project-input-item"><input type="hidden" id="edit-project-id"></div>
+
+        <button type="submit">Submit</button>
+        <button type="button" formnovalidate popovertarget="project-input">Cancel</button>
+      </form>
+    </dialog>
+
+    <div>
+      <ul class="todolist">
+        <li class="todolist-item">default</li>
       </ul>
     </div>
-    <button class="task-btn">Add a Task</button>
-    <button class="project-btn">Add Project</button>
-    <div class="project-form closed">
-      <form action="" class="project">
-        <label for="pjt-name">Project Name</label><input type="text" name="" id="pjt-name">
-        <label for="pjt-date">Project Due Date</label><input type="date" name="" id="pjt-date">
-        <label for="pjt-note">Notes</label><input type="text" name="" id="pjt-note">
-        <label for="submit"></label><input type="submit" name="" id="pjt-submit">
 
-      </form>
+    <div class="project-container">
     </div>
 
-    <div class="task-form closed">
-      <form action="" class="item">
-        <label for="title">Task</label><input type="text" name="title" id="title" required>
-        <label for="date">Due Date</label><input type="date" id="date" required>
-        <label for="note">Notes</label><input type="text" id="note">
-        <label for="complete-or-not">Completed</label><input type="checkbox" name="" id="complete-or-not">
-        <label for="project">Project</label><select name="project" id="project-selection" required><option value="select-a-project">Select a project</option></select>
-        <label for="submit"></label><input type="submit" name="submit" id="submit">
-      </form>
-      <button class="close-btn">X</button>
-    </div>
   </main>
 </body>
 </html>

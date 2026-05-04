@@ -1,179 +1,155 @@
-// UI
-import Todo from "./todo.js";
-import Project from "./project.js";
-import { ta } from "date-fns/locale";
+    // render task 
+    //   function renderTask(title, duetime, note, projectselection, priority, completed)
+    // render project
+    //   function renderProject(title, tasks array)
+    // show previous project & task
+    //   set localStorage
+
+import { createTodo, getTodos, createProject, getProjects, removeTodo, removeProject, updateTodo } from "./dataManager";
+import { Todo } from "./todo";
+import { Project } from "./project";
 
 
-export default class Screen {
-  constructor(todoList, projectList) {
-    this.todoList = todoList;
-    this.taskList = document.querySelector('.task-list');
-    this.taskFormContainer = document.querySelector('.task-form');
-    this.form = document.querySelector('.item');
+const todoListContainer = document.querySelector('.todolist');
+const projectContainer = document.querySelector('.project-container');
+const projectSelectionOption = document.querySelector('#select-project');
 
+//render todo
+export function renderTodoList() {
+  todoListContainer.innerHTML = "";
 
-    this.projectList = projectList;
-    this.projectFormContainer = document.querySelector('.project-form');
-    this.pjtForm = document.querySelector('.project')
- 
-    this.init();
-  
-  }
+  const todos = getTodos();
 
-  init() {
-    this.createTodos();
-    this.createProjects();
-  }
+  todos.forEach(todo =>{
+    console.log(todo instanceof Todo);
 
-  //TODO ---- create new todos 
-  createTodos() {
-
-    const taskBtn = document.querySelector('.task-btn');
-    const taskForm = document.querySelector('.task-form');
-    const closeBtn = document.querySelector('.close-btn');
-
-
-    taskBtn.addEventListener('click', () => {
-      taskForm.classList.add('active');
+    const todoLi = document.createElement('li');
+    const checkboxStatus = todo.completed ? "Done" : "Not yet"
+    //remove todo
+    const removeTodoBtn = document.createElement('button');
+    removeTodoBtn.textContent = 'Delete';
+    removeTodoBtn.addEventListener('click', ()=>{
+      removeTodo(todo.id);
+      renderTodoList()
     })
 
-    closeBtn.addEventListener('click', () => {
-      taskForm.classList.remove('active');
+    //edit todo
+    const editTodoBtn = document.createElement('button');
+    editTodoBtn.textContent = 'Edit';
+    editTodoBtn.addEventListener('click', () => {
+      editTodo(todo.id);
     })
 
-    this.form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.submitForm();
-    })
 
-  }
+    //show todo li
+    todoLi.textContent = `${todo.title} ${todo.dueFromNow} ${todo.duetime} ${todo.note} ${todo.project} ${todo.priority} ${checkboxStatus} `
 
-  submitForm() {
-      console.log("test form")
-      const title = document.querySelector('#title').value;
-      const date = document.querySelector('#date').value;
-      const note = document.querySelector('#note').value;
-      const checkCompleted = document.querySelector('#complete-or-not').checked;
+    todoLi.append(removeTodoBtn)
+    todoLi.append(editTodoBtn)
 
-      const selectedProjectName = document.querySelector('#project-selection').value;
-
-      const todo = new Todo(title, date, note, checkCompleted, selectedProjectName);
-      this.todoList.add(todo);
-
-
-      const targetProject = this.projectList.findProject(selectedProjectName);
-      if(targetProject) {
-        targetProject.addTodo(todo);
-        this.projectList.save();
-      }
-      
-      this.renderTodo(todo);
-
-      // this.taskForm.classList.remove('active');
-      this.form.reset();
-
+    if (todo.completed == true) {
+      todoLi.classList.add('cross')
     }
 
-  renderTodo(todo) {
-      const li = document.createElement('li');
+    todoListContainer.appendChild(todoLi)
+  })
+}
 
-      li.dataset.id = todo.id;
-      li.textContent = `${todo.title} (Due Date: ${todo.getFormattedDate()}) ${todo.note} `;
-      if (todo.isCompleted) {
-        li.style.textDecoration = 'line-through';
-      }
-    //delete
-      const deleteBtn = document.createElement('button');
-      deleteBtn.textContent = "delete";
-      deleteBtn.addEventListener('click', ()=> {
-        this.todoList.remove(todo.id);
-        li.remove();
-      })
-    //done
-      const doneBtn = document.createElement('button');
-      doneBtn.textContent = 'done';
-      doneBtn.addEventListener('click', () => {
-        todo.checkCompleted();
-        this.todoList.save();
-        li.style.textDecoration = todo.isCompleted ? 'line-through' : 'none';
-      })
+//edit todo
 
-      li.append(deleteBtn, doneBtn);
-      this.taskList.append(li);
+export function editTodo(todoId) {
+  const todos = getTodos();
+  const target = todos.find(t => t.id === todoId );
 
-  }
+  if(target) {
+    document.getElementById('task-title').value = target.title;
+    document.getElementById('date').value = target.duetime;
+    document.getElementById('note').value = target.note;
+    document.getElementById('select-project').value = target.project;
 
+    const hiddenId = document.getElementById('edit-todo-id');
+    if(hiddenId) hiddenId.value = target.id;
 
-//PROJECT
-    createProjects() {
+    const priorityBtn = document.querySelector(`input[name="priority"][value="${target.priority}"]`);
+    if(priorityBtn) priorityBtn.checked = true;
 
-      const projectBtn = document.querySelector('.project-btn');
-      // const projectForm = document.querySelector('.project-form');
-      // const pjtForm = document.querySelector('.project');
-      
+    document.getElementById('checkbox').checked = target.completed;
 
-      projectBtn.addEventListener('click', () => {
-        this.projectFormContainer.classList.add('active');
-      })
-
-     this.pjtForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        this.submitProjectForm();
-      })
-
-
-    }
-
-    submitProjectForm() {
-
-      const pjtName = document.querySelector('#pjt-name').value;
-      // const pjtDate = document.querySelector('#pjt-date').value;
-      const pjtNote = document.querySelector('#pjt-note').value;
-      const newProject = new Project(pjtName, pjtNote);
-
-      console.log(pjtName, pjtNote);
-
-
-      this.projectList.add(newProject);
-      this.renderProject(newProject);
-
-      this.renderProjectOption(newProject);
-
-      this.projectFormContainer.classList.remove('active');
-      this.pjtForm.reset();
-
-
-
-      }
-
-      renderProject(project) {
-        const projectBox = document.querySelector('.project-box');
-        const projectLi = document.createElement('li');
-        projectLi.className = 'project-item';
-        projectLi.textContent = `${project.name}, ${project.note}`
-
-
-        projectBox.append(projectLi);
-
-        
-
-      }
-
-      renderProjectOption(Project) {
-        const select = document.querySelector('#project-selection');
-
-        const createdOption = document.createElement('option');
-        createdOption.value = Project.name;
-        createdOption.text = Project.name;
-        select.append(createdOption);
-
-
-      }
-
-
-
-
+    const dialog = document.getElementById('task-input');
+    dialog.showPopover();
+  } 
 }
 
 
+//render project option
+export function renderProjectOption() {
+  projectSelectionOption.innerHTML = '<option value=""> Choose a Project </option><option value="default">None</option>';
 
+  const projects = getProjects();
+
+  projects.forEach(project => {
+    const option = document.createElement('option');
+
+    option.textContent = project.title;
+    option.value = project.title;
+
+    projectSelectionOption.appendChild(option)
+  })
+}
+
+//render project
+export function renderProject() {
+  projectContainer.innerHTML = "";
+
+  const projects = getProjects();
+
+  projects.forEach(project => {
+    console.log(project instanceof Project);
+
+    const projectList = document.createElement('ul');
+    const projectLi = document.createElement('li');
+
+    //remove
+    const removeProjectBtn = document.createElement('button');
+    removeProjectBtn.textContent = 'Remove'
+    removeProjectBtn.addEventListener('click', ()=> {
+      removeProject(project.id);
+      renderProject()
+    })
+
+    //edit project
+    const editProjectBtn = document.createElement('button');
+    editProjectBtn.textContent = 'edit';
+    editProjectBtn.addEventListener('click', () => {
+      editProject(project.id)
+      console.log(`update ${project.id}`)
+    })
+ 
+
+    projectLi.textContent = `${project.title}`
+
+    projectLi.append(editProjectBtn)
+    projectLi.append(removeProjectBtn)
+    
+    projectContainer.append(projectList)
+    projectList.append(projectLi)
+
+
+  })
+}
+
+  export function editProject(projectId) {
+    const projects = getProjects();
+    const target = projects.find(t => t.id === projectId );
+
+    if(target) {
+      document.getElementById('project-title').value = target.title;
+
+      const hiddenId = document.getElementById('edit-project-id');
+      if(hiddenId) hiddenId.value = target.id;
+
+      const dialog = document.getElementById('project-input');
+      dialog.showPopover();
+    } 
+  
+  }
