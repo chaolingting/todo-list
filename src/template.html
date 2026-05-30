@@ -25,7 +25,6 @@
           <label for="project">Project</label>
             <select name="project" id="select-project">
               <option value=""> --Choose a Project-- </option>
-              <option value="default">Default</option>
             </select>
         </div>
         <div class="task-input-item"><input type="hidden" id="edit-todo-id"></div>
@@ -54,15 +53,16 @@
       </form>
     </dialog>
 
-    <div>
-      <ul class="todolist">
-        <li class="todolist-item">default</li>
-      </ul>
-    </div>
+    <div class="two-containers">
+        <div class="todolist-container">
+          <ul class="todolist">
+            <!-- <li class="todolist-item">default</li> -->
+          </ul>
+        </div>
 
-    <div class="project-container">
+        <div class="project-container">
+        </div>
     </div>
-
   </main>
 </body>
 </html>

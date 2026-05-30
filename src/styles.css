@@ -7,7 +7,7 @@ body {
 }
 
 :root {
-  font-size: 15px;
+  font-size: 14px;
   --main-color: green;
   --background-color: beige;
 }
@@ -48,4 +48,37 @@ input[type="submit"] {
 
 .cross {
   text-decoration: line-through;
+}
+
+
+.todo-spans {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  gap: 8px;
+}
+
+.btns {
+  display: flex;
+  gap: 8px;
+}
+
+.two-containers {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+ul {
+  border: 1px solid sandybrown;
+  padding-left: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.project-section {
+  border: 1px solid pink;
 }

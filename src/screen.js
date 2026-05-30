@@ -5,7 +5,7 @@
     // show previous project & task
     //   set localStorage
 
-import { createTodo, getTodos, createProject, getProjects, removeTodo, removeProject, updateTodo } from "./dataManager";
+import { createTodo, getTodos, createProject, getProjects, removeTodo, removeProject, updateTodo, getProjectNamebyId } from "./dataManager";
 import { Todo } from "./todo";
 import { Project } from "./project";
 
@@ -14,6 +14,77 @@ const todoListContainer = document.querySelector('.todolist');
 const projectContainer = document.querySelector('.project-container');
 const projectSelectionOption = document.querySelector('#select-project');
 
+export function createTodoElement(todo) {
+    const todoLi = document.createElement('li');
+  
+    const checkboxStatus = todo.completed ? "Done" : "Not yet"
+
+    const projectName = getProjectNamebyId(todo.project);
+
+    //remove todo
+    const removeTodoBtn = document.createElement('button');
+    removeTodoBtn.textContent = 'remove';
+    removeTodoBtn.addEventListener('click', ()=>{
+      removeTodo(todo.id);
+      renderTodoList();
+      renderProject();
+    })
+    //edit todo
+    const editTodoBtn = document.createElement('button');
+    editTodoBtn.textContent = 'edit';
+    editTodoBtn.addEventListener('click', () => {
+      editTodo(todo.id);
+    })
+
+
+    const btns = document.createElement('div')
+
+    //show todo li
+    // todoLi.textContent = `${todo.title} Due date: ${todo.dueFromNow} ${todo.duetime} Note: ${todo.note} Project: ${projectName} Priority: ${todo.priority} Completed? ${checkboxStatus} `
+
+    const fields = [
+      { label:'', value: todo.title, className: 'title'},
+      { label:'Due:', value:`${todo.dueFromNow}`, className: 'due-from-now'},
+      { label:'', value: todo.duetime, className:'duetime' },
+      { label:'Note: ', value: todo.note, className: 'note' },
+      { label:'Project: ', value: projectName, className: 'project-title'},
+      { label:'Priority: ', value: todo.priority, className:'priority'},
+      { label:'Status: ', value: checkboxStatus, className:'checkbox'},
+    ];
+
+    const spans = fields.map(field => {
+      const span = document.createElement('span');
+      span.textContent = `${field.label}${field.value}`;
+
+      if(field.className) span.classList.add(field.className);
+
+
+
+      return span;
+    })
+    
+      const detailSpan = spans.slice(1);
+      detailSpan.forEach(span => span.classList.add('hidden'));
+
+      spans[0].addEventListener('click', () => {
+        detailSpan.forEach(span => span.classList.toggle('hidden'))
+      });
+
+    todoLi.classList.add('todo-spans');
+    btns.classList.add('btns')
+    todoLi.append(...spans);
+    btns.append(removeTodoBtn, editTodoBtn)
+    todoLi.append(btns)
+
+
+    if (todo.completed == true) {
+      todoLi.classList.add('cross');
+    }
+
+    return todoLi;
+}
+
+
 //render todo
 export function renderTodoList() {
   todoListContainer.innerHTML = "";
@@ -21,37 +92,8 @@ export function renderTodoList() {
   const todos = getTodos();
 
   todos.forEach(todo =>{
-    console.log(todo instanceof Todo);
-
-    const todoLi = document.createElement('li');
-    const checkboxStatus = todo.completed ? "Done" : "Not yet"
-    //remove todo
-    const removeTodoBtn = document.createElement('button');
-    removeTodoBtn.textContent = 'Delete';
-    removeTodoBtn.addEventListener('click', ()=>{
-      removeTodo(todo.id);
-      renderTodoList()
-    })
-
-    //edit todo
-    const editTodoBtn = document.createElement('button');
-    editTodoBtn.textContent = 'Edit';
-    editTodoBtn.addEventListener('click', () => {
-      editTodo(todo.id);
-    })
-
-
-    //show todo li
-    todoLi.textContent = `${todo.title} ${todo.dueFromNow} ${todo.duetime} ${todo.note} ${todo.project} ${todo.priority} ${checkboxStatus} `
-
-    todoLi.append(removeTodoBtn)
-    todoLi.append(editTodoBtn)
-
-    if (todo.completed == true) {
-      todoLi.classList.add('cross')
-    }
-
-    todoListContainer.appendChild(todoLi)
+    todoListContainer.appendChild(createTodoElement(todo))
+    console.log(`SHOW ${todo.title}`);
   })
 }
 
@@ -83,15 +125,16 @@ export function editTodo(todoId) {
 
 //render project option
 export function renderProjectOption() {
-  projectSelectionOption.innerHTML = '<option value=""> Choose a Project </option><option value="default">None</option>';
+  projectSelectionOption.innerHTML = '<option value=""> --Choose a Project-- </option>';
 
   const projects = getProjects();
 
   projects.forEach(project => {
     const option = document.createElement('option');
+    
 
     option.textContent = project.title;
-    option.value = project.title;
+    option.value = project.id;
 
     projectSelectionOption.appendChild(option)
   })
@@ -102,19 +145,25 @@ export function renderProject() {
   projectContainer.innerHTML = "";
 
   const projects = getProjects();
+  const allTodos = getTodos();
 
   projects.forEach(project => {
     console.log(project instanceof Project);
 
-    const projectList = document.createElement('ul');
-    const projectLi = document.createElement('li');
+
+    const projectSection = document.createElement('div')
+    const projectTitle = document.createElement('h3');
+
+    projectSection.classList.add('project-section');
+    projectTitle.textContent = project.title;
 
     //remove
     const removeProjectBtn = document.createElement('button');
-    removeProjectBtn.textContent = 'Remove'
+    removeProjectBtn.textContent = 'remove'
     removeProjectBtn.addEventListener('click', ()=> {
       removeProject(project.id);
-      renderProject()
+      renderProject();
+      renderTodoList();
     })
 
     //edit project
@@ -125,14 +174,18 @@ export function renderProject() {
       console.log(`update ${project.id}`)
     })
  
+    const projectList = document.createElement('ul');
+    const filteredTodos = allTodos.filter(todo => todo.project === project.id);
 
-    projectLi.textContent = `${project.title}`
+    filteredTodos.forEach(todo => {
+      const todoElement = createTodoElement(todo);
 
-    projectLi.append(editProjectBtn)
-    projectLi.append(removeProjectBtn)
+      projectList.append(todoElement);
+    })
     
-    projectContainer.append(projectList)
-    projectList.append(projectLi)
+    projectSection.append(projectTitle, projectList, removeProjectBtn, editProjectBtn);
+    projectContainer.append(projectSection)
+
 
 
   })

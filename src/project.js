@@ -7,8 +7,13 @@
 
 
 export class Project {
-  constructor(title, id) {
+  constructor(title) {
     this.title = title;
     this.id = crypto.randomUUID();
+    this.todoIds = [];
+  }
+
+  addTodosId(id) {
+    this.todoIds.push(id);
   }
 }
