@@ -17,13 +17,24 @@ const projectSelectionOption = document.querySelector('#select-project');
 export function createTodoElement(todo) {
     const todoLi = document.createElement('li');
   
-    const checkboxStatus = todo.completed ? "Done" : "Not yet"
+    const checkboxStatus = todo.completed ? "Done" : "Not yet";
+    const checkboxInput = document.createElement('input');
+    checkboxInput.type = 'checkbox';
+    checkboxInput.checked = todo.completed;
+    checkboxInput.addEventListener('click', ()=>{
+      updateTodo(todo.id, {completed:checkboxInput.checked
+      })
+      renderTodoList();
+      renderProject();
+    })
+    
 
     const projectName = getProjectNamebyId(todo.project);
 
     //remove todo
     const removeTodoBtn = document.createElement('button');
-    removeTodoBtn.textContent = 'remove';
+    removeTodoBtn.classList.add('remove-btn');
+    // removeTodoBtn.textContent = 'remove';
     removeTodoBtn.addEventListener('click', ()=>{
       removeTodo(todo.id);
       renderTodoList();
@@ -31,13 +42,14 @@ export function createTodoElement(todo) {
     })
     //edit todo
     const editTodoBtn = document.createElement('button');
-    editTodoBtn.textContent = 'edit';
+    // editTodoBtn.textContent = 'edit';
+    editTodoBtn.classList.add('edit-btn')
     editTodoBtn.addEventListener('click', () => {
       editTodo(todo.id);
     })
 
 
-    const btns = document.createElement('div')
+    const btns = document.createElement('div');
 
     //show todo li
     // todoLi.textContent = `${todo.title} Due date: ${todo.dueFromNow} ${todo.duetime} Note: ${todo.note} Project: ${projectName} Priority: ${todo.priority} Completed? ${checkboxStatus} `
@@ -58,27 +70,28 @@ export function createTodoElement(todo) {
 
       if(field.className) span.classList.add(field.className);
 
-
-
       return span;
     })
     
       const detailSpan = spans.slice(1);
-      detailSpan.forEach(span => span.classList.add('hidden'));
+      detailSpan.forEach(span => 
+        span.classList.add('hidden'));
 
       spans[0].addEventListener('click', () => {
-        detailSpan.forEach(span => span.classList.toggle('hidden'))
+        detailSpan.forEach(span => span.classList.toggle('hidden'));
+        
       });
 
     todoLi.classList.add('todo-spans');
     btns.classList.add('btns')
-    todoLi.append(...spans);
-    btns.append(removeTodoBtn, editTodoBtn)
-    todoLi.append(btns)
+    todoLi.append(checkboxInput, ...spans);
+    btns.append(removeTodoBtn, editTodoBtn);
+    todoLi.append(btns);
 
 
-    if (todo.completed == true) {
+    if (todo.completed == true || checkboxInput.checked ) {
       todoLi.classList.add('cross');
+
     }
 
     return todoLi;
@@ -142,7 +155,9 @@ export function renderProjectOption() {
 
 //render project
 export function renderProject() {
-  projectContainer.innerHTML = "";
+  // projectContainer.innerHTML = "";
+  const sections = projectContainer.querySelectorAll('.project-section');
+  sections.forEach(s => s.remove());
 
   const projects = getProjects();
   const allTodos = getTodos();
@@ -164,6 +179,7 @@ export function renderProject() {
       removeProject(project.id);
       renderProject();
       renderTodoList();
+      renderProjectOption();
     })
 
     //edit project

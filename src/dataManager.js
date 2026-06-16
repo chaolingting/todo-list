@@ -54,21 +54,17 @@ export function removeTodo(id) {
 }
 
 export function updateTodo(id, updateData) {
-  // const index = todoArray.findIndex(todo => todo.id === id);
-  // if(index !== -1){
-  //   todoArray[index] = { ...todoArray[index], ...updateData};
-  //   return todoArray[index];
-  // }
-
   const target = todoArray.find(todo => todo.id === id);
+
   if (target) {
     Object.assign(target, updateData);
+    saveTodos();
     return target;
   }
 
   console.log(`update: ${id}`)
 
-  saveTodos();
+
 }
 
 

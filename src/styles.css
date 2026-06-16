@@ -12,6 +12,21 @@ body {
   --background-color: beige;
 }
 
+ul, li {
+  margin: 0;
+  padding:0;
+
+}
+
+ul {
+    background-color: white;
+}
+
+li {
+  cursor: pointer;
+
+}
+
 h1, h2 {
   font-family: "Victor Mono";
   font-style: italic;
@@ -58,6 +73,14 @@ input[type="submit"] {
   gap: 8px;
 }
 
+.title::after {
+  content: url(arrow-down.svg);
+  width: 100%;
+  height:24px;
+  padding-left: 1rem;
+}
+
+
 .btns {
   display: flex;
   gap: 8px;
@@ -67,13 +90,10 @@ input[type="submit"] {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 40px;
 }
 
 
-ul {
-  border: 1px solid sandybrown;
-  padding-left: 0;
-}
 
 .hidden {
   display: none;
@@ -81,4 +101,21 @@ ul {
 
 .project-section {
   border: 1px solid pink;
+}
+
+
+.remove-btn {
+  background-image: url(remove.svg);
+  width: 32px;
+  height: 32px;
+  border:none;
+  background-color: white;
+}
+
+.edit-btn {
+  background-image: url(edit.svg);
+  width: 32px;
+  height: 32px;
+  border:none;
+  background-color: white;
 }
