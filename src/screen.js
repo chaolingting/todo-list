@@ -1,10 +1,3 @@
-    // render task 
-    //   function renderTask(title, duetime, note, projectselection, priority, completed)
-    // render project
-    //   function renderProject(title, tasks array)
-    // show previous project & task
-    //   set localStorage
-
 import { createTodo, getTodos, createProject, getProjects, removeTodo, removeProject, updateTodo, getProjectNamebyId } from "./dataManager";
 import { Todo } from "./todo";
 import { Project } from "./project";
@@ -16,10 +9,12 @@ const projectSelectionOption = document.querySelector('#select-project');
 
 export function createTodoElement(todo) {
     const todoLi = document.createElement('li');
+    const spansDivs = document.createElement('div');
   
-    const checkboxStatus = todo.completed ? "Done" : "Not yet";
+    const checkboxStatus = todo.completed ? "Done" : "On going";
     const checkboxInput = document.createElement('input');
     checkboxInput.type = 'checkbox';
+    checkboxInput.classList.add('checkbox');
     checkboxInput.checked = todo.completed;
     checkboxInput.addEventListener('click', ()=>{
       updateTodo(todo.id, {completed:checkboxInput.checked
@@ -28,6 +23,15 @@ export function createTodoElement(todo) {
       renderProject();
     })
     
+    const todoTitle = document.createElement('h4');
+    todoTitle.textContent = todo.title;
+    todoTitle.classList.add('title');
+
+    const titleRow = document.createElement('div');
+    titleRow.classList.add('title-row');
+  
+
+
 
     const projectName = getProjectNamebyId(todo.project);
 
@@ -48,45 +52,78 @@ export function createTodoElement(todo) {
       editTodo(todo.id);
     })
 
-
+    const details = document.createElement('div');
+    details.classList.add('details', 'hidden')
     const btns = document.createElement('div');
+    
 
-    //show todo li
-    // todoLi.textContent = `${todo.title} Due date: ${todo.dueFromNow} ${todo.duetime} Note: ${todo.note} Project: ${projectName} Priority: ${todo.priority} Completed? ${checkboxStatus} `
+    const priorityTag = document.createElement('div');
+    priorityTag.classList.add('priority-tag');
+    priorityTag.textContent = todo.priority;
+    priorityTag.classList.add(`priority-${todo.priority.toLowerCase()}`);
+  
+
+
 
     const fields = [
-      { label:'', value: todo.title, className: 'title'},
-      { label:'Due:', value:`${todo.dueFromNow}`, className: 'due-from-now'},
-      { label:'', value: todo.duetime, className:'duetime' },
-      { label:'Note: ', value: todo.note, className: 'note' },
-      { label:'Project: ', value: projectName, className: 'project-title'},
-      { label:'Priority: ', value: todo.priority, className:'priority'},
-      { label:'Status: ', value: checkboxStatus, className:'checkbox'},
+      { label:'Time ', value:`${todo.dueFromNow}`, className: 'due-from-now'},
+      { label:'Date', value: todo.duetime, className:'duetime' },
+      { label:'Project ', value: projectName, className: 'project-title'},
+      { label:'Priority ', value: todo.priority, className:'priority'},
+      { label:'Status ', value: checkboxStatus, className:'checkbox'},
+      { label:'Note ', value: todo.note, className: 'note' }
+
     ];
 
     const spans = fields.map(field => {
       const span = document.createElement('span');
-      span.textContent = `${field.label}${field.value}`;
+      span.classList.add('detail-spans')
+
+      if (field.label) {
+        const labelEl = document.createElement('span');
+        labelEl.textContent = field.label;
+        labelEl.classList.add('field-label');
+        span.appendChild(labelEl);
+      }
+
+      const valueEl = document.createElement('span');
+      valueEl.textContent = field.value;
+      valueEl.classList.add('field-value');
+      span.appendChild(valueEl);
+      // span.textContent = `${field.label}${field.value}`;
 
       if(field.className) span.classList.add(field.className);
 
       return span;
     })
     
-      const detailSpan = spans.slice(1);
-      detailSpan.forEach(span => 
-        span.classList.add('hidden'));
 
-      spans[0].addEventListener('click', () => {
-        detailSpan.forEach(span => span.classList.toggle('hidden'));
-        
-      });
+    // spans.forEach(span => span.classList.add('hidden'));
 
-    todoLi.classList.add('todo-spans');
+
+    todoTitle.addEventListener('click', () => {
+      // spans.forEach(span => span.classList.toggle('hidden'));
+      // details.classList.toggle('hidden');
+      // btns.classList.toggle('hidden')
+      // details.classList.toggle('hidden');
+      todoLi.classList.toggle('is-expanded');
+      details.classList.remove('hidden')
+
+    });
+
+    todoLi.classList.add('todo-card');
     btns.classList.add('btns')
-    todoLi.append(checkboxInput, ...spans);
+
+
+    titleRow.append(checkboxInput, todoTitle);
+    todoTitle.append(priorityTag)
+    details.append(...spans, btns);
     btns.append(removeTodoBtn, editTodoBtn);
-    todoLi.append(btns);
+
+    todoLi.append(titleRow, details);
+    
+
+
 
 
     if (todo.completed == true || checkboxInput.checked ) {
@@ -168,9 +205,11 @@ export function renderProject() {
 
     const projectSection = document.createElement('div')
     const projectTitle = document.createElement('h3');
+    projectTitle.classList.add('project-title')
 
     projectSection.classList.add('project-section');
     projectTitle.textContent = project.title;
+
 
     //remove
     const removeProjectBtn = document.createElement('button');
@@ -189,6 +228,9 @@ export function renderProject() {
       editProject(project.id)
       console.log(`update ${project.id}`)
     })
+
+    const projectBtns = document.createElement('div');
+    projectBtns.classList.add('project-btns');
  
     const projectList = document.createElement('ul');
     const filteredTodos = allTodos.filter(todo => todo.project === project.id);
@@ -198,8 +240,9 @@ export function renderProject() {
 
       projectList.append(todoElement);
     })
-    
-    projectSection.append(projectTitle, projectList, removeProjectBtn, editProjectBtn);
+
+    projectBtns.append(removeProjectBtn, editProjectBtn);
+    projectSection.append(projectTitle, projectList, projectBtns);
     projectContainer.append(projectSection)
 
 

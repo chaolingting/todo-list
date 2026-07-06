@@ -76,7 +76,7 @@ projectForm.addEventListener('submit', (e) => {
 })
 
 const defaultProject = createProject({
-  title: "clean the house"
+  title: "get groceries"
 });
 
 console.log(defaultProject);
@@ -90,9 +90,12 @@ const defaultTodo = createTodo({
   project: defaultProject.id,
   priority: "Low",
   completed: false
-})
+});
+
+
+
 console.log(defaultTodo)
 renderProject();
 renderTodoList();
 
-saveTodos()
+saveTodos();

@@ -18,11 +18,12 @@ export class Todo {
       this.dueFromNow = "";
     }
 
-    this.note = note;
     this.project = project;
     this.id = id || crypto.randomUUID();
     this.priority = priority;
     this.completed = completed;
+    this.note = note;
+
   }
 
 

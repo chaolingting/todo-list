@@ -10,10 +10,14 @@
 </head>
 <body>
   <main>
-    <h1>Todo List</h1>
-
-    <button popovertarget="task-input">add a task</button>
-    <button popovertarget="project-input">add a project</button>
+    <header>
+      <h1>Todo List</h1>
+      <div class="buttons">
+        <button popovertarget="task-input">add a task</button>
+        <button popovertarget="project-input">add a project</button>
+      </div>
+</header>
+    
 
     <dialog id="task-input" popover>
       <button popovertarget="task-input" popovertargetaction="hide">X</button>
@@ -54,16 +58,16 @@
     </dialog>
 
     <div class="two-containers">
+
+        <aside class="project-container">
+          <h3 class="project-container-title">Projects</h3>
+        </aside>
         <div class="todolist-container">
-          <h3>Lists</h3>
+          <h3 class="todolist-container-title">Lists</h3>
           <ul class="todolist">
-            <!-- <li class="todolist-item">default</li> -->
           </ul>
         </div>
 
-        <div class="project-container">
-          <h3>Projects</h3>
-        </div>
     </div>
   </main>
 </body>

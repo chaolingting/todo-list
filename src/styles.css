@@ -1,29 +1,41 @@
 /* styles.css */
 body {
-  background-color: beige;
+  background-color: var(--background-color);
   font-family: "Epilogue", "Victor Mono", "Kosugi", "Sorts Mill Goudy", sans-serif;
   /* font-style: Italic; */
   font-weight: 500;
+
 }
+
+
 
 :root {
-  font-size: 14px;
-  --main-color: green;
-  --background-color: beige;
+  font-size: 15px;
+  --main-color: #328e13;
+  --background-color: #f5f5b8;
+  --secondary-color: #96bfe6;
 }
 
-ul, li {
+body, ul, li, h1, h2, h3, h4 {
   margin: 0;
   padding:0;
+  font-weight: 400;
 
 }
 
-ul {
-    background-color: white;
+::selection {
+  background-color: #328e13;
+  color: var(--background-color);
 }
+
+input[type="checkbox"] {
+  accent-color:var(--secondary-color);
+}
+
 
 li {
   cursor: pointer;
+
 
 }
 
@@ -31,6 +43,12 @@ h1, h2 {
   font-family: "Victor Mono";
   font-style: italic;
   font-weight: 400;
+  margin: 1rem;
+  color: var(--main-color);
+}
+
+h3, h4 {
+  margin: 0.2rem;
 }
 
 button {
@@ -41,6 +59,7 @@ button {
   background-color: var(--background-color);
   border: 1px solid var(--main-color);
   color: var(--main-color);
+  border-radius: 2px;
 }
 
 button:hover {
@@ -48,6 +67,15 @@ button:hover {
   color: var(--background-color);
 }
 
+
+header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--secondary-color);
+  padding: 1rem 2rem;
+}
 
 input[type="submit"] {
     font-family: "Epilogue";
@@ -66,20 +94,45 @@ input[type="submit"] {
 }
 
 
-.todo-spans {
+.todo-card {
   display: flex;
   flex-direction: column;
-  max-width: 200px;
+  /* max-width: 200px; */
   gap: 8px;
 }
 
-.title::after {
-  content: url(arrow-down.svg);
-  width: 100%;
-  height:24px;
-  padding-left: 1rem;
+.todo-card .details {
+  display: none; 
 }
 
+.title {
+  display: inline-flex;  /* 如果是區塊元素也可以用 display: flex; */
+  align-items: center;
+}
+
+/* 
+.title::after {
+  content: url(arrow-down.svg);
+
+  height:24px;
+  padding-left: 1rem;
+} */
+
+.todo-card .title::after {
+  content: url(arrow-down.svg);
+  padding-left: 16px;
+}
+
+
+
+.todo-card.is-expanded .title::after {
+ transform: rotate(180deg);
+ padding-right: 16px;
+}
+
+.todo-card.is-expanded .details {
+  display: flex; 
+}
 
 .btns {
   display: flex;
@@ -89,27 +142,60 @@ input[type="submit"] {
 .two-containers {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: 40px;
+  width: 100%;
+
 }
 
+.project-container {
+  width: 315px;
+  flex-shrink: 0;
+  /* background-color: var(--secondary-color); */
+  border-right: 1px solid var(--secondary-color);
+  height: 100vh;
+}
+
+.project-title {
+  padding-bottom: 0.4rem;
+}
 
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .project-section {
-  border: 1px solid pink;
+  border: 1px solid var(--main-color);
+  background-color: white;
+  padding: 1rem;
+  margin: 1rem;
 }
 
+.project-section > ul {
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+}
+
+
+
+.project-container-title {
+  padding-bottom: 1rem;
+}
+
+.todolist-container {
+  /* background-color: aliceblue; */
+  width: 100%;
+}
+
+.todolist {
+  padding-left: 2rem;
+}
 
 .remove-btn {
   background-image: url(remove.svg);
   width: 32px;
   height: 32px;
   border:none;
-  background-color: white;
+  /* background-color: white; */
 }
 
 .edit-btn {
@@ -117,5 +203,84 @@ input[type="submit"] {
   width: 32px;
   height: 32px;
   border:none;
-  background-color: white;
+  /* background-color: white; */
 }
+
+
+.title-row{
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+
+.details {
+  display: flex;
+  flex-direction: column;
+  padding-left: 2rem;
+}
+
+.details > span {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--main-color);
+  padding-top: 10px;
+}
+
+.details > .btns {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+
+.priority-tag {
+  padding: 0.2rem;
+  margin: 0.2rem;
+  
+  /* border: 1px solid var(--main-color); */
+  font-size: 11px;
+}
+
+.priority-low {
+ background-color: #efc9b9;
+}
+
+.priority-medium {
+ background-color: #e7a78b;
+}
+
+.priority-high {
+ background-color: #d66b3d;
+ color: var(--background-color);
+}
+
+
+.detail-spans {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  max-width: 800px;
+  
+}
+
+
+.field-label {
+  color: var(--main-color);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding-right: 1rem;
+}
+
+.field-value {
+  align-self: flex-start;
+}
+
+.project-container-title, .todolist-container-title {
+  padding: 1rem;
+  color: var(--secondary-color);
+}
+
+.project-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
