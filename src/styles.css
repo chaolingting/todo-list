@@ -4,6 +4,7 @@ body {
   font-family: "Epilogue", "Victor Mono", "Kosugi", "Sorts Mill Goudy", sans-serif;
   /* font-style: Italic; */
   font-weight: 500;
+  color: var(--text-color);
 
 }
 
@@ -11,9 +12,14 @@ body {
 
 :root {
   font-size: 15px;
-  --main-color: #328e13;
-  --background-color: #f5f5b8;
-  --secondary-color: #96bfe6;
+  --main-color: #095669;
+  --background-color: #fbfbf8;
+  --focus-color: rgb(255, 238, 241);
+  --secondary-color: #91633f;
+  --priority-color1: rgb(255, 211, 218);
+  --priority-color2: rgb(255, 143, 162);
+  --priority-color3: rgb(255, 46, 81);
+  --text-color: #444;
 }
 
 body, ul, li, h1, h2, h3, h4 {
@@ -24,12 +30,21 @@ body, ul, li, h1, h2, h3, h4 {
 }
 
 ::selection {
-  background-color: #328e13;
+  background-color: var(--main-color);
   color: var(--background-color);
 }
 
 input[type="checkbox"] {
   accent-color:var(--secondary-color);
+  padding: 6px;
+  width: 1rem;
+  height: 1rem;
+}
+
+input[type="radio"] {
+  accent-color: var(--secondary-color);
+  width: 1rem;
+  height: 1rem;
 }
 
 
@@ -77,6 +92,16 @@ header{
   padding: 1rem 2rem;
 }
 
+.input-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border-bottom: 1px solid var(--secondary-color); */
+  padding: 0.5rem;
+
+}
+
+
 input[type="submit"] {
     font-family: "Epilogue";
   /* font-style: italic; */
@@ -106,8 +131,9 @@ input[type="submit"] {
 }
 
 .title {
-  display: inline-flex;  /* 如果是區塊元素也可以用 display: flex; */
+  display: inline-flex;  
   align-items: center;
+
 }
 
 /* 
@@ -188,21 +214,18 @@ input[type="submit"] {
 
 .todolist {
   padding-left: 2rem;
+  max-width: 50%;
 }
 
 .remove-btn {
-  background-image: url(remove.svg);
-  width: 32px;
-  height: 32px;
-  border:none;
+  /* background-image: url(remove.svg); */
+  border: 1px solid var(--secondary-color);
   /* background-color: white; */
 }
 
 .edit-btn {
-  background-image: url(edit.svg);
-  width: 32px;
-  height: 32px;
-  border:none;
+  /* background-image: url(edit.svg); */
+  border: 1px solid var(--secondary-color);
   /* background-color: white; */
 }
 
@@ -211,6 +234,8 @@ input[type="submit"] {
   display: flex;
   flex-direction: row;
   gap: 8px;
+  align-items: center;
+  /* border-bottom: 1px solid var(--secondary-color); */
 }
 
 
@@ -241,15 +266,15 @@ input[type="submit"] {
 }
 
 .priority-low {
- background-color: #efc9b9;
+ background-color: var(--priority-color1);
 }
 
 .priority-medium {
- background-color: #e7a78b;
+ background-color: var(--priority-color2);
 }
 
 .priority-high {
- background-color: #d66b3d;
+ background-color: var(--priority-color3);
  color: var(--background-color);
 }
 
@@ -284,3 +309,55 @@ input[type="submit"] {
   gap: 0.5rem;
 }
 
+#task-input-form {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  padding: 0.7rem;
+}
+
+
+.task-input-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  padding: 6px;
+  border-bottom: 1px solid var(--secondary-color);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-size: 1.2rem;
+}
+
+
+
+input[type="text"]:focus,
+input[type="date"]:focus
+ {
+  background-color: var(--focus-color);
+
+}
+
+#task-input,
+#project-input {
+  border: none;
+  padding: 1rem;
+  width: 30%;
+  border: 1px solid var(--secondary-color);
+}
+
+label {
+  color:var(--main-color);
+  font-size: 0.9rem;
+}
+
+.project-input-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}

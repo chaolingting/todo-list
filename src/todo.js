@@ -20,7 +20,7 @@ export class Todo {
 
     this.project = project;
     this.id = id || crypto.randomUUID();
-    this.priority = priority;
+    this.priority = priority || 'Low';
     this.completed = completed;
     this.note = note;
 

@@ -3,8 +3,18 @@ import { Project } from "./project.js"
 import { saveTodos } from "./localStorage.js";
 
 
-const todoArray = [];
-const projectArray = [];
+let todoArray = [];
+let projectArray = [];
+
+
+export function setTodos(newTodos) {
+  todoArray = newTodos;
+}
+
+export function setProjects(newProjects) {
+  projectArray = newProjects;
+}
+
 
 
 //TODO
@@ -77,6 +87,7 @@ export function createProject(pdata) {
   )
 
   projectArray.push(newProject);
+  saveTodos();
   return newProject;
 }
 
@@ -100,6 +111,7 @@ export function removeProject(id) {
   }
 
   projectArray.splice(index, 1);
+  saveTodos();
   console.log(`deleted ${id}`)
 }
 
@@ -112,6 +124,7 @@ export function updateProject(id, updateData) {
   const target = projectArray.find(project => project.id === id);
   if (target) {
     Object.assign(target, updateData);
+    saveTodos();
     return target;
   }
 }

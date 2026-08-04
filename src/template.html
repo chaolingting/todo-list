@@ -13,18 +13,30 @@
     <header>
       <h1>Todo List</h1>
       <div class="buttons">
-        <button popovertarget="task-input">add a task</button>
-        <button popovertarget="project-input">add a project</button>
+        <button popovertarget="task-input">Add a task</button>
+        <button popovertarget="project-input">Add a project</button>
       </div>
 </header>
     
 
     <dialog id="task-input" popover>
-      <button popovertarget="task-input" popovertargetaction="hide">X</button>
+      <div class="input-header">
+        <p>Add a new Task:</p>
+        <button class="x-button" popovertarget="task-input" popovertargetaction="hide">X</button>
+      </div>
       <form action="" id="task-input-form">
-        <div class="task-input-item"><label for="title">Task<input type="text" id="task-title" placeholder="What is it about?"></label></div>
-        <div class="task-input-item"><label for="date">Due Date<input type="date" name="" id="date"></label></div>
-        <div class="task-input-item"><label for="note">Note<input type="text" placeholder="Notes" id="note"></label></div>
+        <div class="task-input-item">
+          <label for="title">Task</label>
+          <input type="text" id="task-title" placeholder="Name of the task">    
+        </div>
+        <div class="task-input-item">
+          <label for="date">Due Date</label>
+            <input type="date" name="" id="date">
+          </div>
+        <div class="task-input-item">
+          <label for="note">Note</label>
+            <input type="text" placeholder="Notes" id="note">
+          </div>
         <div class="task-input-item">
           <label for="project">Project</label>
             <select name="project" id="select-project">
@@ -36,20 +48,33 @@
           <label for="priority">Priority</label>
           <label><input type="radio" name="priority" value="High">High </label>
           <label><input type="radio" name="priority" value="Medium">Medium </label>
-          <label><input type="radio" name="priority" value="Low">Low </label>
+          <label><input type="radio" name="priority" value="Low" checked>Low </label>
         </div>
-        <div class="input-item"><label for="completed">Completed?</label><input type="checkbox" id="checkbox"></div>
+        <div class="input-item">
+          <label for="completed">Completed?</label>
+          <input type="checkbox" id="checkbox">
+        </div>
 
 
-        <div class="input-item"><button type="submit" popovertargetaction="hide">Submit</button></div>
+        <div class="input-item">
+          <button type="submit" popovertargetaction="hide">Submit</button>
+        </div>
+        <!-- <div class="cancel-item">
         <button type="button" formnovalidate popovertarget="task-input">Cancel</button>
+        </div> -->
       </form>
     </dialog>
 
     <dialog id="project-input" popover="">
+      <div class="input-header">
+      <p>Add a new Project</p>
       <button popovertarget="project-input" popovertargetaction="hide">X</button>
+      </div>
       <form action="" id="project-input-form">
-        <div class="project-input-item"><label for="project-title">Project <input type="text" id="project-title" placeholder="Project" required></label></div>
+        <div class="project-input-item">
+          <label for="project-title">Project name</label>
+            <input type="text" id="project-title" placeholder="name of the project" required>
+          </div>
         <div class="project-input-item"><input type="hidden" id="edit-project-id"></div>
 
         <button type="submit">Submit</button>

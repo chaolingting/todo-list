@@ -38,7 +38,7 @@ export function createTodoElement(todo) {
     //remove todo
     const removeTodoBtn = document.createElement('button');
     removeTodoBtn.classList.add('remove-btn');
-    // removeTodoBtn.textContent = 'remove';
+    removeTodoBtn.textContent = 'Remove';
     removeTodoBtn.addEventListener('click', ()=>{
       removeTodo(todo.id);
       renderTodoList();
@@ -46,7 +46,7 @@ export function createTodoElement(todo) {
     })
     //edit todo
     const editTodoBtn = document.createElement('button');
-    // editTodoBtn.textContent = 'edit';
+    editTodoBtn.textContent = 'Edit';
     editTodoBtn.classList.add('edit-btn')
     editTodoBtn.addEventListener('click', () => {
       editTodo(todo.id);
@@ -56,6 +56,9 @@ export function createTodoElement(todo) {
     details.classList.add('details', 'hidden')
     const btns = document.createElement('div');
     
+
+
+    const priority = todo.priority || 'Low';
 
     const priorityTag = document.createElement('div');
     priorityTag.classList.add('priority-tag');
@@ -213,7 +216,7 @@ export function renderProject() {
 
     //remove
     const removeProjectBtn = document.createElement('button');
-    removeProjectBtn.textContent = 'remove'
+    removeProjectBtn.textContent = 'Remove'
     removeProjectBtn.addEventListener('click', ()=> {
       removeProject(project.id);
       renderProject();
@@ -223,7 +226,7 @@ export function renderProject() {
 
     //edit project
     const editProjectBtn = document.createElement('button');
-    editProjectBtn.textContent = 'edit';
+    editProjectBtn.textContent = 'Edit';
     editProjectBtn.addEventListener('click', () => {
       editProject(project.id)
       console.log(`update ${project.id}`)

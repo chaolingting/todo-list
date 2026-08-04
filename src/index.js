@@ -1,9 +1,9 @@
 // src/index.js
 import "./styles.css";
-import { createProject, createTodo, removeTodo, updateTodo, updateProject } from "./dataManager";
+import { createProject, createTodo, removeTodo, updateTodo, updateProject, getProjects } from "./dataManager";
 
 import { renderTodoList, renderProject, renderProjectOption, editTodo } from "./screen.js"
-import { saveTodos } from "./localStorage.js";
+import { saveTodos, loadTodos } from "./localStorage.js";
 
 //Todo
 const taskForm = document.querySelector('#task-input-form');
@@ -15,14 +15,14 @@ const projectDialog = document.querySelector('#project-input')
 taskForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const editTodoId = document.getElementById('edit-todo-id').value;
+  const editTodoId = document.getElementById('edit-todo-id')?.value || "";
 
   const data = {
     title: document.getElementById('task-title').value,
     duetime: document.getElementById('date').value,
     note: document.getElementById('note').value,
     project: document.getElementById('select-project').value,
-    priority: document.querySelector('input[name="priority"]:checked')?.value,
+    priority: document.querySelector('input[name="priority"]:checked')?.value || 'Low',
     completed: document.getElementById('checkbox').checked
 
   };
@@ -75,15 +75,17 @@ projectForm.addEventListener('submit', (e) => {
   projectDialog.hidePopover();
 })
 
-const defaultProject = createProject({
-  title: "get groceries"
-});
-
-console.log(defaultProject);
-renderProjectOption();
 
 
-const defaultTodo = createTodo({
+loadTodos();
+
+
+if(getProjects().length === 0) {
+  const defaultProject = createProject({
+    title: "get groceries"
+  });
+
+  const defaultTodo = createTodo({
   title: "buy tissue paper",
   duetime: "2026-05-10",
   note: "",
@@ -94,7 +96,13 @@ const defaultTodo = createTodo({
 
 
 
-console.log(defaultTodo)
+}
+
+renderProjectOption();
+
+
+
+
 renderProject();
 renderTodoList();
 
