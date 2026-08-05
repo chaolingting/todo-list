@@ -6,42 +6,93 @@
   <title>Todo List</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Kosugi&family=Sorts+Mill+Goudy:ital@0;1&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Kosugi&family=Sorts+Mill+Goudy:ital@0;1&family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 <script defer src="main.js"></script></head>
 <body>
   <main>
-    <h1>todo list</h1>
+    <header>
+      <h1>Todo List</h1>
+      <div class="buttons">
+        <button popovertarget="task-input">Add a task</button>
+        <button popovertarget="project-input">Add a project</button>
+      </div>
+</header>
+    
+
+    <dialog id="task-input" popover>
+      <div class="input-header">
+        <p>Add a new Task:</p>
+        <button class="x-button" popovertarget="task-input" popovertargetaction="hide">X</button>
+      </div>
+      <form action="" id="task-input-form">
+        <div class="task-input-item">
+          <label for="title">Task</label>
+          <input type="text" id="task-title" placeholder="Name of the task">    
+        </div>
+        <div class="task-input-item">
+          <label for="date">Due Date</label>
+            <input type="date" name="" id="date">
+          </div>
+        <div class="task-input-item">
+          <label for="note">Note</label>
+            <input type="text" placeholder="Notes" id="note">
+          </div>
+        <div class="task-input-item">
+          <label for="project">Project</label>
+            <select name="project" id="select-project">
+              <option value=""> --Choose a Project-- </option>
+            </select>
+        </div>
+        <div class="task-input-item"><input type="hidden" id="edit-todo-id"></div>
+        <div class="input-item">
+          <label for="priority">Priority</label>
+          <label><input type="radio" name="priority" value="High">High </label>
+          <label><input type="radio" name="priority" value="Medium">Medium </label>
+          <label><input type="radio" name="priority" value="Low" checked>Low </label>
+        </div>
+        <div class="input-item">
+          <label for="completed">Completed?</label>
+          <input type="checkbox" id="checkbox">
+        </div>
 
 
-    <div class="projects">
-      <ul class="project-box"></ul>
-    </div>
-    <div class="all-tasks-item">
-      <ul class="task-list">
-      </ul>
-    </div>
-    <button class="task-btn">Add a Task</button>
-    <button class="project-btn">Add Project</button>
-    <div class="project-form closed">
-      <form action="" class="project">
-        <label for="pjt-name">Project Name</label><input type="text" name="" id="pjt-name">
-        <label for="pjt-date">Project Due Date</label><input type="date" name="" id="pjt-date">
-        <label for="pjt-note">Notes</label><input type="text" name="" id="pjt-note">
-        <label for="submit"></label><input type="submit" name="" id="pjt-submit">
-
+        <div class="input-item">
+          <button type="submit" popovertargetaction="hide">Submit</button>
+        </div>
+        <!-- <div class="cancel-item">
+        <button type="button" formnovalidate popovertarget="task-input">Cancel</button>
+        </div> -->
       </form>
-    </div>
+    </dialog>
 
-    <div class="task-form closed">
-      <form action="" class="item">
-        <label for="title">Task</label><input type="text" name="title" id="title" required>
-        <label for="date">Due Date</label><input type="date" id="date" required>
-        <label for="note">Notes</label><input type="text" id="note">
-        <label for="complete-or-not">Completed</label><input type="checkbox" name="" id="complete-or-not">
-        <label for="project">Project</label><select name="project" id="project-selection" required><option value="select-a-project">Select a project</option></select>
-        <label for="submit"></label><input type="submit" name="submit" id="submit">
+    <dialog id="project-input" popover="">
+      <div class="input-header">
+      <p>Add a new Project</p>
+      <button popovertarget="project-input" popovertargetaction="hide">X</button>
+      </div>
+      <form action="" id="project-input-form">
+        <div class="project-input-item">
+          <label for="project-title">Project name</label>
+            <input type="text" id="project-title" placeholder="name of the project" required>
+          </div>
+        <div class="project-input-item"><input type="hidden" id="edit-project-id"></div>
+
+        <button type="submit">Submit</button>
+        <button type="button" formnovalidate popovertarget="project-input">Cancel</button>
       </form>
-      <button class="close-btn">X</button>
+    </dialog>
+
+    <div class="two-containers">
+
+        <aside class="project-container">
+          <h3 class="project-container-title">Projects</h3>
+        </aside>
+        <div class="todolist-container">
+          <h3 class="todolist-container-title">Lists</h3>
+          <ul class="todolist">
+          </ul>
+        </div>
+
     </div>
   </main>
 </body>
