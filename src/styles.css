@@ -58,18 +58,14 @@ h1, h2 {
   font-family: "Victor Mono";
   font-style: italic;
   font-weight: 400;
-  margin: 1rem;
+  /* margin: 1rem; */
   color: var(--main-color);
-}
-
-h3, h4 {
-  margin: 0.2rem;
 }
 
 button {
   font-family: "Epilogue";
   /* font-style: italic; */
-  padding: 6px 12px;
+  padding: 8px 12px;
   font-size: 15px;
   background-color: var(--background-color);
   border: 1px solid var(--main-color);
@@ -83,13 +79,51 @@ button:hover {
 }
 
 
+main {
+  display: flex;
+}
+
 header{
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   justify-content: space-between;
+  gap: 20px;
+  /* justify-content: space-between; */
   background-color: var(--background-color);
+  border-right: 1px solid var(--secondary-color);
+  padding: 1rem 2rem 2rem 3rem;
+
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.now {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--secondary-color);
   border-bottom: 1px solid var(--secondary-color);
-  padding: 1rem 2rem;
+  padding: 0.5rem 0;
+}
+
+.now > h4 {
+  width: 100%;
+  padding-bottom: 4px;
+}
+
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  width: 100%;
 }
 
 .input-header {
@@ -124,6 +158,8 @@ input[type="submit"] {
   flex-direction: column;
   /* max-width: 200px; */
   gap: 8px;
+  border-bottom: 1px solid var(--secondary-color);
+  padding: 12px 0 12px 0;
 }
 
 .todo-card .details {
@@ -172,12 +208,16 @@ input[type="submit"] {
 
 }
 
+
+
 .project-container {
-  width: 315px;
+  width: 30%;
   flex-shrink: 0;
   /* background-color: var(--secondary-color); */
   border-right: 1px solid var(--secondary-color);
   height: 100vh;
+    padding: 1.5rem 1rem;
+  
 }
 
 .project-title {
@@ -210,11 +250,12 @@ input[type="submit"] {
 .todolist-container {
   /* background-color: aliceblue; */
   width: 100%;
+   padding: 1.5rem 1rem;
 }
 
 .todolist {
-  padding-left: 2rem;
-  max-width: 50%;
+  padding:2rem;
+  /* max-width: 50%; */
 }
 
 .remove-btn {
@@ -300,7 +341,7 @@ input[type="submit"] {
 }
 
 .project-container-title, .todolist-container-title {
-  padding: 1rem;
+  /* padding: 1rem; */
   color: var(--secondary-color);
 }
 
@@ -347,7 +388,7 @@ input[type="date"]:focus
 #project-input {
   border: none;
   padding: 1rem;
-  width: 30%;
+  width: calc(100% - 70%);
   border: 1px solid var(--secondary-color);
 }
 
@@ -360,4 +401,53 @@ label {
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
+}
+
+
+@media screen and (max-width: 720px) {
+
+
+header {
+  padding: 1rem;
+}
+
+header > h1 {
+  font-size: 1.85rem;
+  margin: 0.5rem;
+}
+
+.two-containers {
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  
+
+  min-height: 100vh;
+}
+
+.project-container {
+  width: 100%;
+  border-right: none;
+  height: auto;
+
+
+}
+
+
+
+#task-input, #project-input {
+  width: calc(100% - 20%);
+  
+}
+
+#task-input::backdrop, #project-input::backdrop {
+  backdrop-filter: blur(2px);
+}
+
+}
+
+
+
+#task-input::backdrop, #project-input::backdrop{
+  backdrop-filter: blur(2px);
+  background-color: rgba(0,0,0,0.1);
 }

@@ -268,3 +268,38 @@ export function renderProject() {
     } 
   
   }
+
+  // new Date().toLocaleDateString();
+  // const now = new Date();
+  // now.toLocaleDateString('zh-TW', {
+  //   hour12: false,
+  //   hour: '2-digit',
+  //   minute: '2-digit',
+  //   second: '2-digit'
+  // });
+
+  // console.log(now)
+
+  // const dateOnScreen = document.createElement('div');
+
+const timeDisplay = document.querySelector('.time');
+const dateDisplay = document.querySelector('.date');
+
+
+function setDate() {
+  const now = new Date();
+  const second = String(now.getSeconds()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  const hour = String(now.getHours()).padStart(2, '0');
+
+  const year = now.getFullYear();
+  const month = now.getMonth() +1;
+  const date = now.getDate();
+
+  dateDisplay.textContent = `${month}/${date}/${year}`
+  timeDisplay.textContent = `${hour}:${minute}`
+}
+setDate();
+
+setInterval(setDate, 1000);
+
