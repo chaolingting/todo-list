@@ -296,7 +296,7 @@ function setDate() {
   const month = now.getMonth() +1;
   const date = now.getDate();
 
-  dateDisplay.textContent = `${month}/${date}/${year}`
+  dateDisplay.textContent = `${date}/${month}/${year}`
   timeDisplay.textContent = `${hour}:${minute}`
 }
 setDate();
